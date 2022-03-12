@@ -1,48 +1,54 @@
+
+
+
+
 class ArticlesController < ApplicationController
+
   def index
     @articles = Article.all
-
-    render json: @articles
+    render json: {status: true, message: 'articles loaded', data: @articles}
   end
 
   def show
     @article = Article.find(params[:id])
 
-    render json: @article
-  end
-
-  def new
-    @article = Article.new
+    if @article
+      render json: {status: true, message: 'article loaded', data: @article}
+    else
+      render json: {status: false, message: 'article not loaded', data: @article.errors}
+    end
   end
 
   def create
     @article = Article.new(article_params)
 
-
     if @article.save
-      puts "saved!"
-      render json: @article
+      render json: {status: true, message: 'articles saved', data: @article}
     else
-      puts "not saved!"
-      render :new, status: :unprocessable_entity
+      render json: {status: false, message: 'article not saved', data: @article.errors}
     end
-  end
-  
-  def edit
-    @article = Article.find(params[:id])
   end
 
   def update
     @article = Article.find(params[:id])
     if @article.update(article_params)
-      redirect_to @article
+      render json: {status: true, message: 'article updated', data: @article}
     else
-      render :edit, status: :unprocessable_entity
+      render json: {status: false, message: 'article not updated', data: @article.errors}
+    end
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    if @article.destroy
+      render json: {status: true, message: 'article destroyed', data: @article}
+    else
+      render json: {status: false, message: 'article not destroyed', data: @article.errors}
     end
   end
 
   private
     def article_params
-      params.require(:article).permit(:title, :body)
+      params.permit(:title, :body)
     end
 end

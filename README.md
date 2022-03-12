@@ -23,6 +23,21 @@ Things you may want to cover:
 
 * ...
 
+### Notes:
+
+#### Controller
+* It acts as the middleman between the views and model.
+    * Views are used to display data to the user while models are where you define methods to manipulate data.
+* The naming convention of controllers in Rails favors pluralization though it is not strictly required. For example UsersController is preferrable over UserController.
+    * This convention allows us to be able to generate routes using resources keyword. E.g.
+resources :users,
+generates all the routes involving the controller actions and expects a UsersController defined.
+* In controllers there are two types of controllers query string parameters and post data.
+    * Query String Parameters:
+        * These are parameters that are sent as part of the URL. The query string is everything after “?” in the URL.
+    * Post Data parameters
+        * 
+
 ### Things to Remember:
 
 * Controller instance variables can be accessed by the view.
@@ -33,3 +48,5 @@ written in Ruby so that they can be database-agnostic.
 * The link_to helper renders a link with its first argument as the link's text and its second argument as the link's destination. If we pass a model object as the second argument, link_to will call the appropriate path helper to convert the object to a path.
 * The form_with helper method instantiates a form builder.
 * A partial's filename must be prefixed with an underscore, e.g. _form.html.erb. But when rendering, it is referenced without the underscore, e.g. render "form".
+
+* Strong Parameters is a feature of Rails that prevents assigning request parameters to objects unless they have been explicitly permitted. It has its own DSL (Domain Specific Language, or in other words, a predefined syntax it understands), that allows you to indicate what parameters should be allowed.
